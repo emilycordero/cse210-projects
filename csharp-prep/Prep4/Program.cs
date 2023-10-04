@@ -7,11 +7,6 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Enter a list of numbers, type 0 when finished. ");
-        int number = 1;
-        int total = 0;
-        int min=0;
-        int max=0;
-        float average = 0;
         List<int> numbers = new List<int>();
         while (number != 0) 
         {
