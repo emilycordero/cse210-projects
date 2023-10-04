@@ -27,6 +27,7 @@ class Journal
         {
             Prompt = prompt,
             CreatedDate = DateTime.Now
+            
         };
         entries.Add(entry);
     }
@@ -75,7 +76,10 @@ class Program
 {
     static List<string> entries = new List<string>();
 
-    static void Main(string[] args)
+    public static string filePath { get; private set; }
+    public static string prompt { get; private set; }
+
+    public static void Main()
     {
         Journal journal = new Journal();
         
@@ -87,16 +91,16 @@ class Program
         switch (choice)
         {
             case "1":
-                AddEntry();
+                journal.AddEntry(prompt);
                 break;
             case "2":
-                DisplayEntries();
+                journal.DisplayEntries();
                 break;
             case "3":
-                SaveToFile();
+                journal.SaveToFile(filePath);
                 break;
             case "4":
-                LoadFromFile();
+                journal.LoadFromFile(filePath);
                 break;
             case "5":
                 Environment.Exit(0);
@@ -109,19 +113,36 @@ Console.WriteLine("Invalid choice. Please try again.");
     }
 }
 
+class PromptGenerator
+{
+    public string Prompt { get; set; }
+
+    public void DisplayPrompt()
+    {
+        string[] prompts = File.ReadAllLines("prompts.txt");
+
+        Random random = new Random();
+        int randomIndex = random.Next(0, prompts.Length);
+        string prompt = prompts[randomIndex];
+        Console.WriteLine($"Prompt: {Prompt}");
+        Console.WriteLine();
+    }
+
+}
 public void AddEntry()
 {
     DateTime theCurrentTime = DateTime.Now;
     string dateText = theCurrentTime.ToShortDateString();
-    Journal journal = new Journal();
+    List<string> entries = new List<string>();
 
     string[] prompts = File.ReadAllLines("prompts.txt");
 
+    PromptGenerator prompt = new PromptGenerator();
     Random random = new Random();
     int randomIndex = random.Next(0, prompts.Length);
-    string prompt = prompts[randomIndex];
-    journal.AddEntry(prompt);
-    Console.WriteLine(prompt);
+    string promptUser = prompts[randomIndex];
+    Console.WriteLine($"Prompt: {promptUser}");
+    Console.WriteLine();
     Console.WriteLine("Enter your entry: ");
     string entryInput = Console.ReadLine();
     entries.Add(dateText);
@@ -129,46 +150,4 @@ public void AddEntry()
     Console.WriteLine("Entry added successfully!");
     Console.WriteLine();
 }
-
-public void DisplayEntries()
-{
-    DateTime theCurrentTime = DateTime.Now;
-    string dateText = theCurrentTime.ToShortDateString();
-
-    Console.WriteLine("All entries: ");
-    foreach (string entry in entries)
-    {
-        Console.WriteLine(dateText + entry);
-    }
-    Console.WriteLine();
-}
-
-public void SaveToFile(string filePath)
-{
-    using (StreamWriter writer = new StreamWriter(filePath))
-        {
-            foreach (JournalEntry entry in entries)
-            {
-                writer.WriteLine(entry.Prompt);
-                writer.WriteLine(entry.CreatedDate);
-            }
-        }
-    }
-
-public void LoadFromFile()
-{
-    Console.WriteLine("Enter the file path to load the entries from: ");
-    string filePath = Console.ReadLine();
-    entries.Clear();
-    using (StreamReader reader = new StreamReader(filePath))
-    {
-        while (!reader.EndOfStream)
-        {
-            string entry = reader.ReadLine();
-            entries.Add(entry);
-        }
-    }
-    Console.WriteLine($"Entries loaded from file: {filePath}");
-    Console.WriteLine();
-    }
 }
