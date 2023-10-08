@@ -1,0 +1,63 @@
+public void AddEntry()
+{
+    DateTime theCurrentTime = DateTime.Now;
+    string dateText = theCurrentTime.ToShortDateString();
+    Journal journal = new Journal();
+
+    string[] prompts = File.ReadAllLines("prompts.txt");
+
+    Random random = new Random();
+    int randomIndex = random.Next(0, prompts.Length);
+    string prompt = prompts[randomIndex];
+    journal.AddEntry(prompt);
+    Console.WriteLine(prompt);
+    Console.WriteLine("Enter your entry: ");
+    string entryInput = Console.ReadLine();
+    entries.Add(dateText);
+    entries.Add(entryInput);
+    Console.WriteLine("Entry added successfully!");
+    Console.WriteLine();
+}
+
+public void DisplayEntries()
+{
+    DateTime theCurrentTime = DateTime.Now;
+    string dateText = theCurrentTime.ToShortDateString();
+
+    Console.WriteLine("All entries: ");
+    foreach (string entry in entries)
+    {
+        Console.WriteLine(dateText + entry);
+    }
+    Console.WriteLine();
+}
+
+public void SaveToFile(string filePath)
+{
+    using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            foreach (JournalEntry entry in entries)
+            {
+                writer.WriteLine(entry.Prompt);
+                writer.WriteLine(entry.CreatedDate);
+            }
+        }
+    }
+
+public void LoadFromFile()
+{
+    Console.WriteLine("Enter the file path to load the entries from: ");
+    string filePath = Console.ReadLine();
+    entries.Clear();
+    using (StreamReader reader = new StreamReader(filePath))
+    {
+        while (!reader.EndOfStream)
+        {
+            string entry = reader.ReadLine();
+            entries.Add(entry);
+        }
+    }
+    Console.WriteLine($"Entries loaded from file: {filePath}");
+    Console.WriteLine();
+    }
+}
