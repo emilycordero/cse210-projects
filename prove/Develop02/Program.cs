@@ -23,22 +23,34 @@ public class Journal
 
     List<JournalEntry> entries = new List<JournalEntry>();
 
-    public void AddEntry(string prompt)
-    {
-        JournalEntry entry = new JournalEntry
-        {
-            Prompt = prompt,
-            CreatedDate = DateTime.Now
-        };
-        entries.Add(entry);
-    }
+    
 
-    public void DisplayEntries()
+    public void AddEntry(string prompt, string entryInput, string dateText)
+{
+    DateTime theCurrentTime = DateTime.Now;
+    dateText = theCurrentTime.ToString("MM/dd/yyyy HH:mm:ss");
+    
+    
+    Console.WriteLine("Enter your entry: ");
+    string _entryText = Console.ReadLine();
+    JournalEntry entry = new JournalEntry
     {
-        foreach (JournalEntry entry in entries){
-            entry.Display();
+        _entryPrompt = prompt,
+        _entryText = entryInput,
+        _entryDate = DateTime.Parse(dateText)
+    };
+
+    entries.Add(entry);
+
+    Console.WriteLine("Entry added successfully!");
+    Console.WriteLine();
+}
+public void DisplayEntries()
+        {
+            foreach (JournalEntry entry in entries){
+                entry.Display();
+            }
         }
-    }
 
 public void SaveToFile(string filePath)
     {
@@ -147,10 +159,7 @@ public void LoadFromFile(string filePath)
     public static string dateText { get; private set; }
     public static string filePath { get; private set; }
 
-    public static string filePath { get; private set; }
-    public static string prompt { get; private set; }
-
-    public static void Main()
+    static void Main(string[] args)
     {
         Journal journal = new Journal();
         
@@ -161,16 +170,18 @@ public void LoadFromFile(string filePath)
         switch (choice)
         {
             case "1":
-                AddEntry();
+                PromptGenerator promptGenerator = new PromptGenerator();
+                promptGenerator.GeneratePrompt();
+                journal.AddEntry(prompt, entryInput, dateText);
                 break;
             case "2":
                 journal.DisplayEntries();
                 break;
             case "3":
-                SaveToFile();
-                break;
+                journal.LoadFromFile(filePath);
+                break;  
             case "4":
-                LoadFromFile();
+                journal.SaveToFile(filePath);
                 break;
             case "5":
                 Environment.Exit(0);
@@ -180,68 +191,5 @@ public void LoadFromFile(string filePath)
                 break;
         }
     }
-}
-
-public void AddEntry()
-{
-    DateTime theCurrentTime = DateTime.Now;
-    string dateText = theCurrentTime.ToShortDateString();
-    Journal journal = new Journal();
-
-    string[] prompts = File.ReadAllLines("prompts.txt");
-
-    Random random = new Random();
-    int randomIndex = random.Next(0, prompts.Length);
-    string prompt = prompts[randomIndex];
-    journal.AddEntry(prompt);
-    Console.WriteLine(prompt);
-    Console.WriteLine("Enter your entry: ");
-    string entryInput = Console.ReadLine();
-    entries.Add(dateText);
-    entries.Add(entryInput);
-    Console.WriteLine("Entry added successfully!");
-    Console.WriteLine();
-}
-
-public void DisplayEntries()
-{
-    DateTime theCurrentTime = DateTime.Now;
-    string dateText = theCurrentTime.ToShortDateString();
-
-    Console.WriteLine("All entries: ");
-    foreach (string entry in entries)
-    {
-        Console.WriteLine(dateText + entry);
-    }
-    Console.WriteLine();
-}
-
-public void SaveToFile(string filePath)
-{
-    using (StreamWriter writer = new StreamWriter(filePath))
-        {
-            foreach (JournalEntry entry in entries)
-            {
-                writer.WriteLine(entry.Prompt);
-                writer.WriteLine(entry.CreatedDate);
-            }
-        }
-    }
-
-public void LoadFromFile()
-{
-    Console.WriteLine("Enter the file path to load the entries from: ");
-    string filePath = Console.ReadLine();
-    entries.Clear();
-    using (StreamReader reader = new StreamReader(filePath))
-    {
-        while (!reader.EndOfStream)
-        {
-            string entry = reader.ReadLine();
-            entries.Add(entry);
-        }
-    }
-    Console.WriteLine($"Entries loaded from file: {filePath}");
-    Console.WriteLine();
     }
 }
