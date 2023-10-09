@@ -29,10 +29,10 @@ public class Journal
 {
     DateTime theCurrentTime = DateTime.Now;
     dateText = theCurrentTime.ToString("MM/dd/yyyy HH:mm:ss");
-    
-    
     Console.WriteLine("Enter your entry: ");
     string _entryText = Console.ReadLine();
+
+    
     JournalEntry entry = new JournalEntry
     {
         _entryPrompt = prompt,
@@ -132,7 +132,6 @@ public void LoadFromFile(string filePath)
 
             string prompt = ReturnPrompt();
             Console.WriteLine($"Prompt: {prompt}");
-            string entryInput = GetEntryInput();
         }
 
         private string ReturnPrompt()
@@ -144,11 +143,11 @@ public void LoadFromFile(string filePath)
             return prompt;
         }
 
-        private string GetEntryInput()
-        {
-            Console.WriteLine("Enter your entry: ");
-            return Console.ReadLine();
-        }
+        // private string GetEntryInput()
+        // {
+        //     Console.WriteLine("Enter your entry: ");
+        //     return Console.ReadLine();
+        // }
     }
 
         class Program
