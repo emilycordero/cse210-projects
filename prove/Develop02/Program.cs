@@ -132,6 +132,7 @@ public void LoadFromFile(string filePath)
 
             string prompt = ReturnPrompt();
             Console.WriteLine($"Prompt: {prompt}");
+            string entryInput = GetEntryInput();
         }
 
         private string ReturnPrompt()
