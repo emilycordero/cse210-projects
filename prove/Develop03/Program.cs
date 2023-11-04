@@ -1,34 +1,46 @@
-using Microsoft.TeamFoundation.Client.CommandLine;
+using Microsoft.TeamFoundation;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 class Program
 {
     static void Main(string[] args)
     {
+        string reference = "John 3:16";
+        string text = "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.";
+
         Scripture scripture = new Scripture(reference, text);
+  
 
         Console.WriteLine("Press Enter to continue or type 'quit' to exit.");
 
         string input = Console.ReadLine();
         if (input.ToLower() == "quit")
         {
-            return Environment.Exit(ExitCode);
+            return;
         }
+        Console.WriteLine(scripture);
+
 
         while (!scripture.AllWordsHidden())
         {
             scripture.HideRandomWord();
-            Console.Clear();
             Console.WriteLine(scripture);
 
-            Console.WriteLine("Press Enter to continue or type 'quit' to exit.")
+            Console.WriteLine("Press Enter to continue or type 'quit' to exit.");
 
-            string input = Console.ReadLine();
-                if (input.ToLower() == "quit")
-                {
-                    return Environment.Exit();
-                }
+            input = Console.ReadLine();
+
+               if (input.ToLower() == "quit")
+               {
+                    Console.Clear();
+
+                    return;
+               }
+      
+
+
         }
 
     }
@@ -42,7 +54,7 @@ class Scripture
     public Scripture(string reference, string text)
     {
         this.reference = reference;
-        this.text = text;   
+        this.text = text;
         this.words = new List<Word>();
 
         // by using .Split method we will split the scripture text into words
@@ -53,20 +65,21 @@ class Scripture
         }
     }
 
+
     public void HideRandomWord()
     {
         Random random = new Random();
         int index = random.Next(words.Count);
 
         // Hide word at the random index if it is not already hidden
-        if (!words[index].IsHidden())
-        {
-            words[index].Hide();
-        }
-        else
+        if (words[index].IsHidden())
         {
             // if already hidden
             HideRandomWord();
+        }
+        else
+        {
+            words[index].Hide();
         }
     }
 
@@ -75,10 +88,11 @@ class Scripture
     {
         foreach (Word word in words)
         {
-            if (!word.IsHidden())
+            if (word.IsHidden())
             {
-                return false;
+                continue;
             }
+            return false;
         }
         return true;
     }
@@ -88,7 +102,7 @@ class Scripture
         string reconstructedText = "";
         foreach(Word word in words)
         {
-            reconstructedText = +word = " ";
+            reconstructedText += " " + word;
         }
 
         return $"{reference}: {reconstructedText}";
@@ -96,15 +110,23 @@ class Scripture
 }
 class Reference
 {
-    private string referenceText;
+    private string reference;
+    private string text;
+    private string filepath = "scriptures.txt";
+    // i couldn't figure out how to read and return a random scripture from a separate file but i tried to 
 
-    public Reference(string referenceText)
+    public Reference(string reference, string filepath)
     {
-        this.referenceText = referenceText;
+        this.reference = reference;
+        this.text = File.ReadAllText(filepath);
     }
-
-    // Methods to handle single and multiple verse ranges
-
+    public string GetRandomScripture()
+    {
+        string[] scriptures = this.text.Split('.');
+        Random random = new Random();
+        int randomIndex = random.Next(0, scriptures.Length);
+        return scriptures[randomIndex].Trim();
+    }
 }
 class Word
 {
@@ -117,12 +139,9 @@ class Word
         this.hidden = false;
     }
 
-    public void Hide()
-    {
-        hidden = true;
-    }
+    public bool Hide() => hidden = true;
 
-    public void IsHidden()
+    public bool IsHidden()
     {
         return hidden;
     }
