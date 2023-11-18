@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.ComponentModel.Design;
 // Consider an app that provides three different kinds of mindfulness opportunities. It could give some guidance and structure to users in the following activities:
 
@@ -8,6 +9,33 @@ using System.ComponentModel.Design;
 //The application could additional help the user keep track of the time or frequency they spend in these activities and give them gentle prompts and reminders.
 class Program
 {
+    
+    static void RunActivity(string name, string description)
+    {
+        Console.Clear();
+        Console.WriteLine($"----- {name} Activity -----");
+        Console.WriteLine(description);
+        Console.Write("Enter the duration in seconds: ");
+        int duration = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("Get ready to begin...");
+        Thread.Sleep(3000); // Pause for 3 seconds before starting the activity
+
+        Console.WriteLine("Activity in progress...");
+
+        // Show animation while the activity is running
+        for (int i = 0; i < duration; i++)
+        {
+            Console.Write(".");
+            Thread.Sleep(1000); // Pause for 1 second
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Good job!");
+
+        Console.WriteLine($"You have completed the {name} activity for {duration} seconds.");
+        Thread.Sleep(3000); // Pause for 3 seconds before returning to the main menu
+    }
     static void Main(string[] args)
     {
         while (true)
@@ -20,7 +48,8 @@ class Program
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Welcome to the Breathing Activity.")
+                    string prompt = GeneratePrompt();
+                    RunActivity("ReflectingActivity", $"{prompt}");
                     break;
                 case "2":
                     break;
