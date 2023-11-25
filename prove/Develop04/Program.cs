@@ -1,6 +1,11 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.ComponentModel.Design;
+using static GeneratePromptClass;
+using static BreathingActivityClass;
+using static ReflectingActivityClass;
+using static ListingActivityClass;
 // Consider an app that provides three different kinds of mindfulness opportunities. It could give some guidance and structure to users in the following activities:
 
 //Breathing Activity - Help the user pace their breathing to have a session of deep breathing for a certain amount of time. They might find more peace and less stress through the exercise.
@@ -12,17 +17,39 @@ class Program
     
     static void RunActivity(string name, string description)
     {
-        Console.Clear();
-        Console.WriteLine($"----- {name} Activity -----");
-        Console.WriteLine(description);
-        Console.Write("Enter the duration in seconds: ");
-        int duration = int.Parse(Console.ReadLine());
-
         Console.WriteLine("Get ready to begin...");
         Thread.Sleep(3000); // Pause for 3 seconds before starting the activity
 
         Console.WriteLine("Activity in progress...");
 
+        switch (name)
+        {
+            case "Breathing":
+                BreathingActivityClass breathingActivityClass = new BreathingActivityClass();
+                string name = breathingActivity.Name;
+                string description = breathingActivity.Description;
+                Console.WriteLine($"----- {name} Activity -----");
+                Console.WriteLine(description);
+                Console.Write("Enter the duration in seconds: ");
+                string userInput = Console.ReadLine();
+                int duration = int.Parse(userInput);
+                breathingActivityClass.ProcessNumber(duration);
+                break;
+            case "Reflecting":
+                ReflectingActivityClass reflectingActivityClass = new reflectingActivityClass();
+                string name = reflectingActivity.Name;
+                string description = reflectingActivity.Description;
+                Console.WriteLine($"----- {name} Activity -----");
+                Console.WriteLine(description);
+                Console.Write("Enter the duration in seconds: ");
+                string userInput = Console.ReadLine();
+                int duration = int.Parse(userInput);
+                break;
+            case "Listing":
+                break;
+            default:
+                break;
+        }
         // Show animation while the activity is running
         for (int i = 0; i < duration; i++)
         {
@@ -40,6 +67,7 @@ class Program
     {
         while (true)
         {
+            GeneratePromptClass promptGenerator = new GeneratePromptClass();
             Console.WriteLine("Menu Options: ");
             Console.WriteLine("1. Start breathing activity\n2. Start reflecting activity\n3. Start listing activity\n4. Quit");
             Console.WriteLine("Select a choice from the menu: ");
@@ -48,14 +76,16 @@ class Program
             switch (choice)
             {
                 case "1":
-                    string prompt = GeneratePrompt();
-                    RunActivity("ReflectingActivity", $"{prompt}");
+                    RunActivity("Breathing", $"{description}");
                     break;
                 case "2":
+                    RunActivity("Reflecting", $"{description}");
                     break;
                 case "3":
+                    RunActivity("Listing", $"{description}");
                     break;
                 case "4":
+                    choice = false;
                     Environment.Exit(0);
                     break;
                 default:

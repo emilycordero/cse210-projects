@@ -1,30 +1,27 @@
 using System;
-using System.IO;
+using System.Collections.Generic;
 
 public class GeneratePromptClass
 {
-	public GeneratePromptClass()
-	{
-		
-		string promptFile = 'prompts.txt';
-		string content = "[Empty File]";
-        List<string> promptList = new List<string>();
-        
-        foreach (string line in content.Split('.'))
-		{
+    private List<string> promptList;
+
+    public GeneratePromptClass()
+    {
+        string promptFile = "C:\\Users\\corde\\OneDrive\\Documents\\GitHub\\cse210-projects\\prove\\Develop04\\prompts.txt";
+        promptList = new List<string>();
+
+        foreach (string line in promptFile.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+        {
             promptList.Add(line);
         }
-
-        Random random = new Random();
-        int randomIndex = random.Next(0, promptList.Length);
-        string prompt =  promptList[randomIndex].Trim();
-        return prompt;
     }
-    static void GeneratePrompt(string prompt)
+
+    public string GeneratePrompt()
     {
+        promptList = new List<string>();
         Random random = new Random();
-        List<string> list = new List<string>();
-        list.Add("");
-        int randomIndex = random.Next(0, List.Length);
+        int randomIndex = random.Next(0, promptList.Count);
+        string prompt = promptList[randomIndex].Trim();
+        return prompt;
     }
 }
