@@ -1,35 +1,34 @@
 using System;
 using System.IO;
 using System.ComponentModel.Design;
+using System.Threading;
+using System.Xml.Linq;
+using static BreathingActivityClass;
+using static ReflectingActivityClass;
+using static ListingActivityClass;
 using static GeneratePromptClass;
-// Consider an app that provides three different kinds of mindfulness opportunities. It could give some guidance and structure to users in the following activities:
-
-//Breathing Activity - Help the user pace their breathing to have a session of deep breathing for a certain amount of time. They might find more peace and less stress through the exercise.
-//Reflection Activity - Guide the user to think deeply, by having them consider a certain experience when they were successful or demonstrated strength. Then, prompt them with questions to reflect more deeply about details of this experience. They might discover more depth than they previously realized.
-//Listing Activity - Guide the user to think broadly, by helping them list as many things as they can in a certain area of strength or positivity. They might discover more breadth than they previously realized.
-//The application could additional help the user keep track of the time or frequency they spend in these activities and give them gentle prompts and reminders.
-class Program 
+class Program
 {
     public static void Main(string[] args)
     {
-        GeneratePromptClass generatePromptClass = new GeneratePromptClass();
         while (true)
         {
             Console.WriteLine("Menu Options: ");
             Console.WriteLine("1. Start breathing activity\n2. Start reflecting activity\n3. Start listing activity\n4. Quit");
             Console.WriteLine("Select a choice from the menu: ");
             string choice = Console.ReadLine();
+            var runActivity = new Program();
 
             switch (choice)
             {
                 case "1":
-                    generatePromptClass.GeneratePrompt();
-                    var runActivity = new Program();
-                    runActivity.RunActivity("Reflecting", "For a few moments, you will be taking some time to reflect on random prompts that come up.");
+                    RunActivity("Breathing", "This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.");
                     break;
                 case "2":
+                    RunActivity("Reflecting", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.");
                     break;
                 case "3":
+                    RunActivity("Listing", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.");
                     break;
                 case "4":
                     Environment.Exit(0);
@@ -40,30 +39,26 @@ class Program
         }
     }
 
-    public void RunActivity(string name, string description)
+    static void RunActivity(string name, string description)
     {
-    Console.Clear();
-    Console.WriteLine($"----- {name} Activity -----");
-    Console.WriteLine(description);
-    Console.Write("Enter the duration in seconds: ");
-    int duration = int.Parse(Console.ReadLine());
 
-    Console.WriteLine("Get ready to begin...");
-    Thread.Sleep(3000); // Pause for 3 seconds before starting the activity
+        switch (name)
+        {
+            case "Breathing":
+                BreathingActivityClass breathingActivityClass = new BreathingActivityClass();
+                break;
+            case "Reflecting":
+                ReflectingActivityClass reflectingActivityClass = new ReflectingActivityClass();
+                break;
+            case "Listing":
+                ListingActivityClass listingActivityClass = new ListingActivityClass();
+                break;
+            default:
+                Console.WriteLine("Invalid.");
+                break;
+        }
 
-    Console.WriteLine("Activity in progress...");
-
-    // Show animation while the activity is running
-    for (int i = 0; i < duration; i++)
-    {
-        Console.Write(".");
-        Thread.Sleep(1000); // Pause for 1 second
+        Thread.Sleep(3000); // Pause for 3 seconds before returning to the main menu
     }
-
-    Console.WriteLine();
-    Console.WriteLine("Good job!");
-
-    Console.WriteLine($"You have completed the {name} activity for {duration} seconds.");
-    Thread.Sleep(3000); // Pause for 3 seconds before returning to the main menu
-    }   
 }
+    
