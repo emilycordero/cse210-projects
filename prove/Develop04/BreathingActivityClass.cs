@@ -1,45 +1,42 @@
-﻿public class BreathingActivityClass
+﻿using System;
+using System.Xml.Linq;
+
+public class BreathingActivityClass : RunActivityClass
 {
-    private DateTime startTime;
-    private DateTime futureTime;
-    private int duration;
-
-    public BreathingActivityClass()
+    public BreathingActivityClass() : base("Breathing Activity", "This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.")
     {
-        string _name = "Breathing";
-        string _description = "This activity will help you relax by walking your through breathing in and out slowly. Clear your mind and focus on your breathing.";
-        duration = 6;
-        startTime = DateTime.Now;
-        futureTime = startTime.AddSeconds(duration);
-        ProcessNumber(duration);
+    }
+    protected override void PerformActivity()
+    {
+        breathIn();
+        Thread.Sleep(1000);
+        Console.WriteLine();
+        breathOut();
+        Thread.Sleep(1000);
+        Console.WriteLine();
     }
 
-    public void ProcessNumber(int duration)
+    private void breathIn()
     {
-        while (startTime < futureTime)
+        string breath = "Breathe in... ";
+        Console.Write($"{breath}");
+        for (int i = 6; i > 0; i--)
         {
-            breathIn();
-            breathOut();
+            Console.Write(i);
+            Thread.Sleep(1000);
+            Console.Write("\b \b");
         }
     }
 
-    public void breathIn()
+    private void breathOut()
     {
-        string breath = "Breathe in ";
-        Console.WriteLine(breath);
-        for (int i = 0; i < duration; i++)
+        string breath = "Now breathe out... ";
+        Console.Write($"{breath}");
+        for (int i = 6; i > 0; i--)
         {
             Console.Write(i);
-        }
-    }
-
-    public void breathOut()
-    {
-        string breath = "Breathe out ";
-        Console.WriteLine(breath);
-        for (int i = 0; i < duration; i++)
-        {
-            Console.Write(i);
+            Thread.Sleep(1000);
+            Console.Write("\b \b");
         }
     }
 }

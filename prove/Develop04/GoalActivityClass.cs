@@ -1,16 +1,13 @@
 ﻿using System;
 
-public class ListingActivityClass : RunActivityClass
+public class GoalActivityClass : RunActivityClass
 {
-    public ListingActivityClass() : base("Listing Activity", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.")
+    public GoalActivityClass() : base("Goal Activity", "This activity will help remind you to set a goal and maintain your goals.")
 	{
         
     }
     protected override void PerformActivity()
     {
-        Console.Write("List as many responses you can to the following prompt:  ");
-        GeneratePromptClass generatePromptClass = new GeneratePromptClass();
-        generatePromptClass.GenerateListingPrompt();
         Console.WriteLine();
         Console.Write("You may begin in: ");
         for (int i = 5; i > 0; i--)
@@ -22,21 +19,23 @@ public class ListingActivityClass : RunActivityClass
 
         Console.WriteLine();
 
-        Console.WriteLine("Start listing items:");
+        Console.WriteLine("Start listing as many goals as you want:");
 
 
         int listingDuration = 20;
         DateTime endTime = DateTime.Now.AddSeconds(listingDuration);
 
-
+        List<string> itemList = new List<string>();
         int itemCount = 0;
         while (DateTime.Now < endTime)
         {
-            Console.ReadLine();
+            string item = Console.ReadLine();
+            itemList.Add(item);
             itemCount++;
         }
 
         Console.WriteLine($"Time's up! Listing is complete. You listed {itemCount} items.");
-        Console.WriteLine();
     }
+
+
 }
