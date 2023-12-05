@@ -9,7 +9,7 @@ public class SimpleGoal : Goal
         _simplegoal = simplegoal;
     }
 
-    public override double GetGoal()
+    public override double GetGoals()
     {
         return _simplegoal;
     }

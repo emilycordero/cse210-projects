@@ -9,7 +9,7 @@ public class EternalGoal : Goal
 		_eternalgoal = eternalgoal;
 	}
 
-	public override double GetGoal()
+	public override double GetGoals()
 	{ 
 		return _eternalgoal; 
 	}

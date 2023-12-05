@@ -9,7 +9,7 @@ public class ChecklistGoal : Goal
         _checklistgoal = checklistgoal;
     }
 
-    public override double GetGoal()
+    public override double GetGoals()
     {
         return _checklistgoal;
     }

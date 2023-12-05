@@ -19,5 +19,5 @@ public abstract class Goal
 		_goal = goal;
 	}
 
-	public abstract double GetGoal();
+	public abstract double GetGoals();
 }
