@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 public abstract class Goal
 {
-	private string _goal;
+    public string goalName { get; set; }
+    public string goalDescription { get; set; }
 
-	public Goal(string goal)
+    public int numberOfPoints { get; set; }
+
+
+    public Goal(string goalName, string goalDescription, int numberOfPoints)
 	{
-		_goal = goal;
-	}
+        this.goalName = goalName;
+        this.goalDescription = goalDescription; 
+        this.numberOfPoints = numberOfPoints;
 
-	public string GetGoal() 
-	{ 
-		return _goal; 
-	}
-
-	public void SetGoal(string goal)
-	{
-		_goal = goal;
-	}
-
-	public abstract double GetGoals();
+        
+    }
+    public abstract void RecordEvent();
+    public abstract bool IsCompleted();
 }

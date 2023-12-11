@@ -2,15 +2,19 @@
 
 public class EternalGoal : Goal
 {
-	private double _eternalgoal;
+    public EternalGoal(string goalName, string goalDescription, int numberOfPoints) : base(goalName, goalDescription, numberOfPoints)
+    {
 
-	public EternalGoal(string goal, double eternalgoal) : base (goal)
-	{
-		_eternalgoal = eternalgoal;
-	}
+    }
+    public override void RecordEvent()
+    {
+        UserPoints userPoints = new UserPoints(goalName, numberOfPoints);
+        userPoints.AddPoints(numberOfPoints);
+    }
 
-	public override double GetGoals()
-	{ 
-		return _eternalgoal; 
-	}
+    public override bool IsCompleted()
+    {
+        // they are never completed
+        return false;
+    }
 }

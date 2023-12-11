@@ -2,15 +2,19 @@
 
 public class SimpleGoal : Goal
 {
-    private double _simplegoal;
-
-    public SimpleGoal(string goal, double simplegoal) : base(goal)
+    public SimpleGoal(string goalName, string goalDescription, int numberOfPoints, UserPoints UserPoints) : base(goalName, goalDescription, numberOfPoints)
     {
-        _simplegoal = simplegoal;
+        
+
     }
 
-    public override double GetGoals()
+    public override void RecordEvent()
     {
-        return _simplegoal;
+        UserPoints userPoints = new UserPoints(goalName, numberOfPoints);
+        userPoints.AddPoints(numberOfPoints);
+    }
+    public override bool IsCompleted()
+    {
+        return true;
     }
 }

@@ -2,15 +2,24 @@
 
 public class ChecklistGoal : Goal
 {
-    private double _checklistgoal;
-
-    public ChecklistGoal(string goal, double checklistgoal) : base(goal)
+    public int CompletionCount { get; private set; }
+    public int DesiredCount { get; private set; }
+    public int BonusPoints { get; private set; }
+    public ChecklistGoal(string goalName, string goalDescription, int numberOfPoints, int desiredCount, int bonusPoints) : base(goalName, goalDescription, numberOfPoints)
     {
-        _checklistgoal = checklistgoal;
+        DesiredCount = desiredCount;
+        BonusPoints = bonusPoints;
+
+      
     }
 
-    public override double GetGoals()
+    public override void RecordEvent()
     {
-        return _checklistgoal;
+        CompletionCount++;
+    }
+
+    public override bool IsCompleted()
+    {
+        return CompletionCount >= DesiredCount;
     }
 }
