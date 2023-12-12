@@ -9,3 +9,167 @@ In addition, your program must:
 Use inheritance to avoid duplicating shared attributes and methods.
 Use an address class for the addresses.
 Follow the principles of encapsulation, making sure each member variable is private.
+
+
+Create the Base Event Class:
+Start by creating a base Event class that contains common attributes like EventTitle, Description, Date, Time, and an instance of the Address class.
+
+csharp
+Copy code
+public class Address
+{
+    // Address properties and methods here
+}
+
+public class Event
+{
+    private string eventTitle;
+    private string description;
+    private DateTime date;
+    private TimeSpan time;
+    private Address address;
+
+    // Constructor
+    public Event(string eventTitle, string description, DateTime date, TimeSpan time, Address address)
+    {
+        this.eventTitle = eventTitle;
+        this.description = description;
+        this.date = date;
+        this.time = time;
+        this.address = address;
+    }
+
+    // Getters for common attributes
+    public string GetEventTitle() => eventTitle;
+    public string GetDescription() => description;
+    public DateTime GetDate() => date;
+    public TimeSpan GetTime() => time;
+    public Address GetAddress() => address;
+
+    // Method to generate standard details
+    public string GenerateStandardDetails()
+    {
+        // Implement the standard details message
+    }
+
+    // Method to generate full details
+    public virtual string GenerateFullDetails()
+    {
+        // Implement the full details message
+        // Base class implementation can be empty or provide some default information
+        return "Base Event Details";
+    }
+
+    // Method to generate short description
+    public virtual string GenerateShortDescription()
+    {
+        // Implement the short description message
+        // Base class implementation can be empty or provide some default information
+        return "Base Event Short Description";
+    }
+}
+Create Derived Classes:
+Create derived classes for each type of event (Lectures, Receptions, OutdoorGatherings), inheriting from the base Event class. Override the necessary methods for each specific event type.
+
+csharp
+Copy code
+public class Lecture : Event
+{
+    private string speakerName;
+    private int capacity;
+
+    // Constructor
+    public Lecture(string eventTitle, string description, DateTime date, TimeSpan time, Address address, string speakerName, int capacity)
+        : base(eventTitle, description, date, time, address)
+    {
+        this.speakerName = speakerName;
+        this.capacity = capacity;
+    }
+
+    public override string GenerateFullDetails()
+    {
+        // Implement specific details for lectures
+    }
+
+    public override string GenerateShortDescription()
+    {
+        // Implement specific short description for lectures
+    }
+}
+
+public class Reception : Event
+{
+    private string rsvpEmail;
+
+    // Constructor
+    public Reception(string eventTitle, string description, DateTime date, TimeSpan time, Address address, string rsvpEmail)
+        : base(eventTitle, description, date, time, address)
+    {
+        this.rsvpEmail = rsvpEmail;
+    }
+
+    public override string GenerateFullDetails()
+    {
+        // Implement specific details for receptions
+    }
+
+    public override string GenerateShortDescription()
+    {
+        // Implement specific short description for receptions
+    }
+}
+
+public class OutdoorGathering : Event
+{
+    private string weatherStatement;
+
+    // Constructor
+    public OutdoorGathering(string eventTitle, string description, DateTime date, TimeSpan time, Address address, string weatherStatement)
+        : base(eventTitle, description, date, time, address)
+    {
+        this.weatherStatement = weatherStatement;
+    }
+
+    public override string GenerateFullDetails()
+    {
+        // Implement specific details for outdoor gatherings
+    }
+
+    public override string GenerateShortDescription()
+    {
+        // Implement specific short description for outdoor gatherings
+    }
+}
+Create and Test Events:
+In your Main method, create instances of each event type, set their values, and call the methods to generate marketing messages.
+
+csharp
+Copy code
+class Program
+{
+    static void Main()
+    {
+        Address address1 = new Address(/* Address details for event 1 */);
+        Lecture lectureEvent = new Lecture(/* Event details for lecture */, "John Doe", 100);
+
+        Address address2 = new Address(/* Address details for event 2 */);
+        Reception receptionEvent = new Reception(/* Event details for reception */, "rsvp@example.com");
+
+        Address address3 = new Address(/* Address details for event 3 */);
+        OutdoorGathering outdoorEvent = new OutdoorGathering(/* Event details for outdoor gathering */, "Weather will be clear");
+
+        // Call methods to generate marketing messages for each event
+        string standardDetailsLecture = lectureEvent.GenerateStandardDetails();
+        string fullDetailsLecture = lectureEvent.GenerateFullDetails();
+        string shortDescriptionLecture = lectureEvent.GenerateShortDescription();
+
+        // Similar calls for receptionEvent and outdoorEvent
+
+        // Output the results
+        Console.WriteLine(standardDetailsLecture);
+        Console.WriteLine(fullDetailsLecture);
+        Console.WriteLine(shortDescriptionLecture);
+
+        // Similar output for receptionEvent and outdoorEvent
+    }
+}
