@@ -9,7 +9,7 @@ public class Event
     private TimeSpan eventTime;
     private Address eventAddress;
 
-    class Event(string eventName, string eventDescription, string eventCategory, DateTime eventDate, TimeSpan eventTime, Address eventAddress)
+    public Event(string eventName, string eventDescription, string eventCategory, DateTime eventDate, TimeSpan eventTime, Address eventAddress)
     {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
@@ -18,28 +18,16 @@ public class Event
         this.eventAddress = eventAddress;
     }
 
-    public string GetEventName()
-    {
-        return eventName;
-    }
-    public string GetEventDescription()
-    {
-        return eventDescription;
-    }
+    public string EventName => eventName;
+    
+    public string EventDescription => eventDescription;
+    public DateTime EventDate => eventDate;
+    public TimeSpan EventTime => eventTime;
+    //public string EventAddress => eventAddress;
+    public string EventCategory => eventCategory;
 
-    public DateTime GetEventDate()
-    {
-        return eventDate;
-    }
-
-    public string GetEventTime()
-    {
-        return eventTime;
-    }
-    public string GetEventAddress()
-    {
-        return eventAddress.GetFullAddress();
-    }
+    public string EventAddress =>  eventAddress.GetFullAddress();
+    
     public string GenerateStandardDetails()
     {
         return "Join us at " + eventName + " on " + eventDate + " at " + eventTime + ". We will be meeting in " + eventAddress + " for " + eventDescription + ".";
