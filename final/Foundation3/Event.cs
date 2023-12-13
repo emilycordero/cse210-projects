@@ -9,12 +9,22 @@ public class Event
     private TimeSpan eventTime;
     private Address eventAddress;
 
-    class Event(string eventName, string eventDescription, string eventCategory, DateTime eventDate, TimeSpan eventTime, Address eventAddress)
+    public Event(string eventName, string eventCategory, string eventDescription, DateTime eventDate, TimeSpan eventTime, Address eventAddress)
     {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.eventCategory = eventCategory;
+        this.eventTime = eventTime;
         this.eventDate = eventDate;
+        this.eventAddress = eventAddress;
+    }
+
+    public Event(string eventName, string eventDescription, DateTime eventDate, TimeSpan eventTime, Address eventAddress)
+    {
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
         this.eventAddress = eventAddress;
     }
 
@@ -32,7 +42,7 @@ public class Event
         return eventDate;
     }
 
-    public string GetEventTime()
+    public TimeSpan GetEventTime()
     {
         return eventTime;
     }
