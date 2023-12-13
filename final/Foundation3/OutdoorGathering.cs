@@ -8,18 +8,15 @@ public class OutdoorGathering : Event
 		this.weatherState = weatherState;
 	}
 
-	public string GenerateStandardDetails()
-	{
-		return "Join us at " + EventName + " on " + EventDate + " at " + EventTime + ". We will be meeting in " + EventAddress + " for " + EventDescription + ".";
-	}
+	
 
 	public virtual string GenerateFullDetails()
 	{
-		return "Join us at " + EventName + " on " + EventDate + " at " + EventTime + " for a " + EventCategory + ". We will be meeting in " + EventAddress + " for " + EventDescription + "." + weatherState + " Look forward to it!";
+		return "Join us at " + EventName + " on " + EventDate.ToShortDateString() + " at " + EventTime + " for a " + EventCategory + ". We will be meeting in " + EventAddress + " for " + EventDescription + "." + weatherState + " Look forward to it!";
 	}
 
 	public virtual string GenerateShortDescription()
 	{
-		return "Join us at " + EventName + " on " + EventDate + " for a " + EventCategory + ".";
+		return "Join us at " + EventName + " on " + EventDate.ToShortDateString() + " for a " + EventCategory + ".";
 	}
 }

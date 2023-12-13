@@ -9,18 +9,14 @@ public class Reception : Event
         this.email = email;
     }
 
-    public string GenerateStandardDetails()
-    {
-        return "Join us at " + EventName + " on " + EventDate + " at " + EventTime + ". We will be meeting in " + EventAddress + " for " + EventDescription + ".";
-    }
 
     public virtual string GenerateFullDetails()
     {
-        return "Join us at " + EventName + " on " + EventDate + " at " + EventTime + " for a " + EventCategory + ". We will be meeting in " + EventAddress + " for " + EventDescription + ". You must RSVP 3 days before by sending your information to this email: " + email;
+        return "Join us at " + EventName + " on " + EventDate.ToShortDateString() + " at " + EventTime + " for a " + EventCategory + ". We will be meeting in " + EventAddress + " for " + EventDescription + ". You must RSVP 3 days before by sending your information to this email: " + email;
     }
 
     public virtual string GenerateShortDescription()
     {
-        return "Join us at " + EventName + " on " + EventDate + " for a " + EventCategory + ".";
+        return "Join us at " + EventName + " on " + EventDate.ToShortDateString() + " for a " + EventCategory + ".";
     }
 }
